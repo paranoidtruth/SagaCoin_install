@@ -98,7 +98,7 @@ echo "restarting wallet, be patient, wait..."
 sagacoind
 sleep 30
 
-
-echo "Done!  It may take time to sync, you can start your setup checks in the guide once the block count is sync'd"
 echo "sagacoind getmininginfo:"
 sagacoind getmininginfo
+
+echo "Done!  It may take time to sync, you can start your final setup checks in the guide once the block count is sync'd"
