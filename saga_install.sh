@@ -29,6 +29,12 @@ free -h
 echo "SWAP setup complete..."
 #end optional swap section
 
+echo "Installing packages and updates..."
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get dist-upgrade -y
+sudo apt-get install build-essential libssl-dev libdb++-dev libboost-all-dev libqrencode-dev -y
+
 echo "Downloading saga wallet..."
 wget $FILE_NAME
 tar -zxvf sagacoin_1.0.0.5_ubuntu16.04.tar.gz
