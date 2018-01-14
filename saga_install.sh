@@ -45,7 +45,7 @@ sudo cp SagaCoin/sagacoind /usr/local/bin
 echo "INITIAL START: IGNORE ANY CONFIG ERROR MSGs..." 
 sagacoind
 
-echo "Loading wallet, wait..." 
+echo "Loading wallet, be patient, wait..." 
 sleep 30
 sagacoind getmininginfo
 sagacoind stop
@@ -74,9 +74,6 @@ addnode=155.94.230.163
 addnode=80.209.228.1
 EOF
 
-echo "config completed, restarting wallet..."
-sagacoind
-
 echo "setting basic security..."
 sudo apt-get install fail2ban -y
 sudo apt-get install -y ufw
@@ -96,4 +93,12 @@ sudo ufw enable
 sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 echo "basic security completed..."
-echo "Go finish the WINDOWS (or mac) setup, then return here"
+
+echo "restarting wallet, be patient, wait..."
+sagacoind
+sleep 30
+
+
+echo "Done!  It may take time to sync, you can start your setup checks in the guide once the block count is sync'd"
+echo "sagacoind getmininginfo:"
+sagacoind getmininginfo
