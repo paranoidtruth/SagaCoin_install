@@ -1,7 +1,7 @@
 #!/bin/bash
 #paranoidtruth
 
-#PATH TO CURRENT SAGA: 
+#PATH TO CURRENT SAGA:  YOU MUST ALSO CHANGE TAR & MV COMMANDS
 FILE_NAME="https://github.com/sagacrypto/SagaCoin/releases/download/1.0.0.5/sagacoin_1.0.0.5_ubuntu16.04.tar.gz"
 
 echo "=================================================================="
@@ -31,8 +31,8 @@ echo "SWAP setup complete..."
 
 echo "Downloading saga wallet..."
 wget $FILE_NAME
-tar -zxvf sagacoin_1.0.0.2_ubuntu16.04.tar.gz
-mv sagacoin_1.0.0.2_ubuntu16.04 SagaCoin
+tar -zxvf sagacoin_1.0.0.5_ubuntu16.04.tar.gz
+mv sagacoin_1.0.0.5_ubuntu16.04 SagaCoin
 chmod +x SagaCoin/sagacoind
 sudo cp SagaCoin/sagacoind /usr/local/bin
 
