@@ -29,7 +29,6 @@ echo "SWAP setup complete..."
 
 echo "Downloading saga wallet..."
 FILE_NAME="https://github.com/sagacrypto/SagaCoin/releases/download/1.0.0.2/sagacoin_1.0.0.2_ubuntu16.04.tar.gz"
-cd ~/
 wget $FILE_NAME
 tar -zxvf sagacoin_1.0.0.2_ubuntu16.04.tar.gz
 mv sagacoin_1.0.0.2_ubuntu16.04 SagaCoin
