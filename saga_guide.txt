@@ -1,0 +1,123 @@
+#paranoidtruth SAGA GUIDE for windows-linux (cold) setup
+#you do need a linux vps to get a public IP, etc.  If you don't know what that is, you might want to hold off on this.
+
+***************************** LINUX VPS setup (part 1) *************************************************************
+#I personally use a fairly small linux instance, 1024memory, ubuntu, 16.04
+#a lot of people use vultr, the $5 instance.  but any vps will do.  stick with ubuntu 16.04 for this guide, though.
+#there are tons of vps services like: ovh, vpsdime, vultr, digitalocean, etc, etc.
+#get the vps ip they gave you, you will need that for the windows setup
+********************************************************************************************************************
+
+
+*************************** WINDOWS SETUP (or mac) *****************************************************************
+#side note, you actually need a little over 2500 coins because there's a trans fee.  
+#If you literally have only 2500, go buy one more coin.
+
+#edit your local (windows/mac) sagacoin.conf file
+#it should be at /users/<your user name>/AppData/Roaming/SagaCoin
+#or in mac: /Users/<username>/Library/Application Support/SagaCoin
+#it should look like this:
+rpcuser=whatever_you_want
+rpcpassword=some_password_but_you_do_not_need_to_remember_it
+rpcport=48844
+rpcallowip=127.0.0.1
+staking=0
+addnode=node1.sagacoin.net
+addnode=node2.sagacoin.net
+addnode=node3.sagacoin.net
+addnode=155.94.230.24
+addnode=155.94.230.163
+addnode=80.209.228.1
+
+#shutdown & restart wallet to load those new configs
+
+#There's really only a couple more steps on the windows side.
+#make sure the wallet is unlocked
+#go to masternodes tab & create one.
+#it asks for an alias, that's just MN1 or whatever you want to call it.
+#it asks for your ADDR: use your VPS ip & port: xx.xx.xx.xx:48744
+#that generated a new MN address for you, you can see it if you go to your receive tab, copy the addr from there
+#go to the send tab.  send 2500 exactly to that addr.  
+#it will charge you a fee, do not send 2500.001 to cover the fee, just send 2500
+#go to the transactions tab. you will NOT see the 2500 since you are just sending to yourself, only the trans fee
+#wait for 10 confirms on the fee, you will eventually see the clock change to a checkmark
+#go to masternodes tab & highlight your new masternode
+#click on get config button.
+#you only need ONE item from here, the masternodeprivkey, copy that, ignore everything else.
+#go to the debug console: Help->console
+#type masternode outputs
+#if you got data there, you're good on the windows side and can start it now:
+#click the start all button. OR, in the console, masternode start-alias MN1
+#Verify in the console: masternode list full active
+#you want to see your ip in the list
+********************************************************************************************************************
+
+
+***************************** LINUX VPS setup (part 2) *************************************************************
+#SSH into the vps (most windows users will use putty.  If you're not familiar with putty, watch a quick youtube vid)
+#If you're on a mac (when the mac wallet is available, you have a built in SSH terminal instead of putty)
+#after connecting should see something like: root@whatever_your_server_name_is
+#copy all instructions one line at a time:
+
+#first we will create a new user, we do not want to install as root
+#so let's create a user called saga1
+#it's going to ask you questions like room number, you can just hit enter for all those, all you really need to fill in 
+#is the new user password, do not lose this password either, you need both the root & saga1 password from now on
+
+adduser saga1
+
+#now give this user sudo access (more power!)
+usermod -aG sudo saga1
+
+#now download and run the install script:
+wget https://raw.githubusercontent.com/paranoidtruth/SagaCoin_install/master/saga_install.sh
+sudo chmod +x saga_install.sh
+sh saga_install.sh
+#you WILL NEED the masternodeprivkey from windoows, copy it, right click to paste when asked for it
+#enter y at the end to enable firewall
+
+#now, let's see if we can see our ip in the list, swap in YOUR ip instead of xx.xx.xx.xx:
+sagacoind masternode list | grep xx.xx.xx.xx
+
+#with any luck you will see something like: xx.xx.xx.xx:48744 : 1,
+#1 is good, that means your ip is active/enabled in the saga masternode list
+
+#what if that doesn't find yours?
+#DEBUG RULES:
+#wait 5 min, then restart vps wallet & try again:
+sagacoind stop
+sagacoind 
+#test again using the grep technique above
+#verify your vps wallet is in sync on blockchain to current block number:
+sagacoind getmininginfo
+#see if block number there matches current block count in explorer:
+#http://explorer.sagacoin.net/
+
+if sync'd and still not in list, go back to windows and shut-down, restart wallet.
+Do all of the following in the windows wallet debug/console:
+masternode start-alias MN1 (use whatever you named your MN)
+verify yours is enabled in: masternode list full active
+If everything is good there, try again in LINUX VPS, use the grep command again
+if it's still not good, stop and restart it in the VPS:
+sagacoind stop
+sagacoind
+#still not good?  Wait 5 min and repeat all debug steps.
+
+
+#FYI: some VPS commands you might use on occasion:
+sagacoind #starts sagacoin
+sagacoind masternode list #shows all nodes
+sagacoind stop #stops sagacoin
+sagacoind getmininginfo #show blocks, etc.
+sagacoind help #shows every possible command
+
+#WINDOWS CMD:
+masternode outputs
+masternode list full active #and find yours
+
+#wait for rewards.  First one might take up to 24+ hours.
+#saga is SUPER random.  don't be surprised when you don't get a reward in a full day.  
+#just verify that it's running and you're fine.
+#I also use the monitoring feature of masternodes.online.  
+#You can create an acct and find your node by searching by ip:port
+#add it to your monitor list, and be sure that it's running.  
