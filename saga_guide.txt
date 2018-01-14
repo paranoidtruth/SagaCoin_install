@@ -72,8 +72,8 @@ usermod -aG sudo saga1
 #now download and run the install script:
 wget https://raw.githubusercontent.com/paranoidtruth/SagaCoin_install/master/saga_install.sh
 sudo chmod +x saga_install.sh
-sh saga_install.sh
 #you WILL NEED the masternodeprivkey from windoows, copy it, right click to paste when asked for it
+sh saga_install.sh
 #enter y at the end to enable firewall
 
 #now, let's see if we can see our ip in the list, swap in YOUR ip instead of xx.xx.xx.xx:
