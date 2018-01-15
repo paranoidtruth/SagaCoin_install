@@ -50,6 +50,9 @@ addnode=80.209.228.1
 #click the start all button. OR, in the console, masternode start-alias MN1
 #Verify in the console: masternode list full active
 #you want to see your ip in the list
+
+#staking note... in order to make sure your MN doesn't fail after sending coins: 
+#set staking=0 (set in configs above) lock/encrypt the wallet, and make sure you use coin-control when sending to not dip into the MN funds!
 ********************************************************************************************************************
 
 
