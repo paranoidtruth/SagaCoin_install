@@ -9,9 +9,13 @@ echo "SagaCoin MN Install"
 echo "=================================================================="
 echo "Installing, this will take appx 2 min to run..."
 read -p 'Enter your masternode genkey you created in windows, then [ENTER]: ' GENKEY
-echo -n "Installing pwgen..."
 
-sudo apt-get install pwgen
+echo -n "Installing pwgen..."
+sudo apt-get install pwgen 
+
+echo -n "Installing dns utils..."
+sudo apt-get install dnsutils
+
 PASSWORD=$(pwgen -s 64 1)
 WANIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 
