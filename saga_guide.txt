@@ -74,6 +74,7 @@ usermod -aG sudo saga1
 
 #switch to that user:
 su - saga1
+cd ~/
 
 #now download and run the install script:
 wget https://raw.githubusercontent.com/paranoidtruth/SagaCoin_install/master/saga_install.sh
