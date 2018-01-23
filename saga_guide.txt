@@ -72,6 +72,9 @@ adduser saga1
 #now give this user sudo access (more power!)
 usermod -aG sudo saga1
 
+#switch to that user:
+su - saga1
+
 #now download and run the install script:
 wget https://raw.githubusercontent.com/paranoidtruth/SagaCoin_install/master/saga_install.sh
 sudo chmod +x saga_install.sh
