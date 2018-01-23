@@ -83,6 +83,11 @@ sudo chmod +x saga_install.sh
 sh saga_install.sh
 #enter y at the end to enable firewall
 
+#after finishes, run:
+sagacoind getmininginfo
+#you should see the block number, and run that command every couple minutes
+#until you sync up to the current block.  Then you should be ready to continue:
+
 #now, let's see if we can see our ip in the list, swap in YOUR ip instead of xx.xx.xx.xx:
 sagacoind masternode list | grep xx.xx.xx.xx
 
