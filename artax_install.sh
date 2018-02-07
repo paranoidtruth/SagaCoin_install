@@ -36,11 +36,12 @@ echo "Installing packages and updates..."
 sudo apt-get update -y
 sudo apt-get upgrade -y
 sudo apt-get dist-upgrade -y
+sudo apt-get install -y software-properties-common python-software-properties
+sudo add-apt-repository -y ppa:bitcoin/bitcoin
 sudo apt-get install build-essential libssl-dev libdb++-dev libboost-all-dev libqrencode-dev -y
 sudo apt-get install build-essential libssl-dev libcrypto++-dev libminiupnpc-dev libgmp-dev libgmp3-dev -y
 sudo apt-get install autoconf autogen automake libtool -y
 sudo apt-get install git -y
-
 
 #this section may fix the target error
 echo "BITCOIN CORE..."

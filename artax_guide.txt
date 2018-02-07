@@ -142,7 +142,6 @@ artaxd stop #stop
 artaxd	#restart
 #still not good?  Wait 5 min and repeat all debug steps.
 
-
 #FYI: some VPS commands you might use on occasion:
 artaxd #starts
 artaxd masternode list #shows all nodes

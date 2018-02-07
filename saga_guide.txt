@@ -48,7 +48,7 @@ addnode=80.209.228.1
 #type masternode outputs
 #if you got data there, you're good on the windows side and can start it now:
 #click the start all button. OR, in the console, masternode start-alias MN1
-#Verify in the console: masternode list full active
+#Verify in the console: masternode list full
 #you want to see your ip in the list
 
 #staking note... in order to make sure your MN doesn't fail after sending coins: 
