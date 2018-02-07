@@ -1,0 +1,163 @@
+#paranoidtruth ARTAX GUIDE for windows-linux (cold) setup
+#you do need a linux vps to get a public IP, etc.  If you don't know what that is, you might want to hold off on this.
+
+***************************** LINUX VPS setup (part 1) *************************************************************
+#I personally use a fairly small linux instance, 1024memory, ubuntu, 16.04
+#a lot of people use vultr, the $5 instance.  but any vps will do.  
+Stick with ubuntu 16.04 for this guide, though.
+#there are tons of vps services like: ovh, vpsdime, vultr, digitalocean, etc, etc.
+#get the vps ip they gave you, you will need that for the windows setup
+********************************************************************************************************************
+
+
+*************************** WINDOWS SETUP (or mac) *****************************************************************
+#side note, you actually need a little over 2500 coins because there's a trans fee.  
+#If you literally have only 2500, go buy one more coin.
+#send all coins from exchange to your local windows/mac wallet primary/default wallet address
+
+#edit your local (windows/mac) artax.conf file
+#it should be at /users/<your user name>/AppData/Roaming/Artax
+#or in mac: /Users/<username>/Library/Application Support/Artax
+#it can be virtually empty, we will mainly add the staking=0 & addnodes
+#it should look like this:
+staking=0
+addnode=artax.online 
+addnode=seed1.artax.one 
+addnode=seed2.artax.one 
+addnode=seed3.artax.one 
+addnode=104.207.156.30:34457
+addnode=108.51.164.90:56635
+addnode=108.51.88.251:60423
+addnode=108.61.181.58:43427
+addnode=108.61.215.152:21527
+addnode=113.161.8.131:53080
+addnode=115.75.5.106:63112
+addnode=124.121.188.118:56878
+
+#SAVE, shutdown & restart wallet to load those new configs
+#There's really only a couple more steps on the windows side.
+#make sure the wallet is unlocked
+
+Go to the RECEIVE tab
+Create a new address, label it MN1.
+Send exactly 2500 coins to that address.  You are just sending coins to yourself at a secondary wallet address. 
+ONE TRANSACTION.  EXACTLY 2500.  Do NOT add in extra!
+Wait for a few confirms in the transactions tab, the full amount won’t show, but the fee will.
+
+Open the console: Help->debug window->console.
+Type: masternode outputs
+You should get output that looks something like this:
+"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" : "0"
+Copy & save this to a file, you will need in a minute.
+The first part is your txid.  The second part is your index.  
+
+If that didn’t work, stop, you’re already broken.  
+Did you send exactly 2500 coins? 2500.01 is not 2500, most common mistake is people send extra.  
+Your primary can have the extra, your MN needs exactly 2500.   
+
+In the debug console, type:
+masternode genkey
+copy/save that output to a file.  Don’t lose it, you will need it for the VPS setup
+You will be using the genkey & txid in just a minute for window masternode.conf...
+
+#go to masternodes tab & create one.
+#Alias: that's just MN1 or whatever you want to call it.
+#Address: use your VPS ip & port: xx.xx.xx.xx:21527
+#PrivKey: that is the masternode genkey you just created a few minutes ago
+#TxHash: that is the characters from masternode outputs you did a few minutes ago
+#Output Index: is the number, probably 0, from masternode outputs
+#Leave Reward Addr & the % blank, just let your rewards go to our MN address
+#create it.  That just created a masternode.conf file in the same location as your primary conf file
+#you can manually edit it later using notepad if needed.
+#close wallet & reopen to reload configs again.
+go back to debug: Help->debug window->console
+#double check config:
+masternode list-conf
+#verify data there looks good for the ip addr, txid, priv/genkey, etc.
+
+********************************************************************************************************************
+
+
+***************************** LINUX VPS setup (part 2) *************************************************************
+#SSH into the vps (most windows users will use putty.  If you're not familiar with putty, watch a quick youtube vid)
+#If you're on a mac you have a built in SSH terminal instead of putty)
+#after connecting should see something like: root@whatever_your_server_name_is
+#copy all instructions one line at a time:
+
+#first we will create a new user, we do not want to install as root
+#so let's create a user called artax1
+#it's going to ask you questions like room number, you can just hit enter for all those, all you really need to fill in 
+#is the new user password, do not lose this password either, you need both the root & artax1 password from now on
+
+adduser artax1
+
+#now give this user sudo access (more power!)
+usermod -aG sudo artax1
+
+#switch to out new user:
+su - artax1
+#you are now logged in as artax1
+cd ~/
+
+#now download and run the install script:
+wget https://raw.githubusercontent.com/paranoidtruth/SagaCoin_install/master/artax_install.sh
+sudo chmod +x artax_install.sh
+#you will now need that masternodeprivkey from windoows, 
+#copy it, right click to paste when asked for it
+sh artax_install.sh
+#enter y at the end to enable firewall
+
+#after finishes, run:
+artaxd getmininginfo
+#you should see the block number, and run that command every couple minutes
+#until you sync up to the current block.  Then you should be ready to continue:
+
+#see if we are running: 
+artaxd masternode status
+#you want to see status 9.  ignore the "could not find suitable coins"
+
+#now, let's also see if we can see our ip in the list, swap in YOUR txid from windows for xxxx
+artaxd masternode list | grep xxxx
+#with any luck you will see something like: xx.xx.xx.xx:21527 : ENABLED,
+
+#what if that didn't all work?
+#DEBUG RULES:
+#wait 5 min, then restart vps wallet & try again:
+artaxd stop
+artaxd 
+#test again using the grep technique above
+#verify your vps wallet is in sync on blockchain to current block number:
+artaxd getmininginfo
+#see if block number there matches current block count in explorer:
+#http://104.131.44.238:3001/
+
+#if sync'd and still not in list, go back to windows and shut-down, restart wallet.
+#Do all of the following in the windows wallet debug/console:
+masternode start-alias MN1 (use whatever you named your MN)
+#verify yours is enabled in: 
+masternode list
+#If everything is good there, try again in LINUX VPS, use the grep command again
+#if it's still not good, stop and restart it in the VPS:
+artaxd stop #stop
+artaxd	#restart
+#still not good?  Wait 5 min and repeat all debug steps.
+
+
+#FYI: some VPS commands you might use on occasion:
+artaxd #starts
+artaxd masternode list #shows all nodes
+artaxd stop #stops
+artaxd getmininginfo #show blocks, etc.
+artaxd help #shows every possible command
+
+#WINDOWS CMD:
+masternode outputs
+masternode list full #and find yours
+
+#wait for rewards.  First one might take up to 24+ hours.
+#I also recommend (full disclosure, it's mine) the monitoring feature of mnode.club
+https://mnode.club/g/nodes/ARTX/
+
+#You can create an acct and add your node to your watchlist to get email alerts 
+#if the node goes down, or for any incoming reward pmt.
+#add it to your account watchlist.
