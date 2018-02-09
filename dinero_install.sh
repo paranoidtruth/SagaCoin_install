@@ -102,7 +102,6 @@ dinero-cli getmininginfo
 echo "masternode status:"
 dinero-cli masternode status
 
-echo -n "____ INSTALLED WITH VPS IP: $WANIP  ______"
+echo "INSTALLED WITH VPS IP: $WANIP"
 sleep 1
-echo -n "____ INSTALLED WITH GENKEY: $GENKEY ______"
-
+echo "INSTALLED WITH GENKEY: $GENKEY"
