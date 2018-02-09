@@ -103,5 +103,6 @@ echo "masternode status:"
 dinero-cli masternode status
 
 echo -n "____ INSTALLED WITH VPS IP: $WANIP  ______"
+sleep 1
 echo -n "____ INSTALLED WITH GENKEY: $GENKEY ______"
 
