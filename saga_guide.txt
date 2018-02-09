@@ -116,6 +116,12 @@ sagacoind
 #still not good?  Wait 5 min and repeat all debug steps.
 
 
+#at that point you should be good, but it's always a good idea to double check on an external site:
+#full disclosure, the site I'm recommending is mine (mnode.club)  
+#can check your node status: https://mnode.club/g/nodes/SAGA/
+#add to your "watchlist" to get an email alert if the node goes down and when you receive rewards
+#will take 5 minutes for a new node to load into the system
+
 #FYI: some VPS commands you might use on occasion:
 sagacoind #starts sagacoin
 sagacoind masternode list #shows all nodes
@@ -130,6 +136,4 @@ masternode list full active #and find yours
 #wait for rewards.  First one might take up to 24+ hours.
 #saga is SUPER random.  don't be surprised when you don't get a reward in a full day.  
 #just verify that it's running and you're fine.
-#I also use the monitoring feature of masternodes.online.  
-#You can create an acct and find your node by searching by ip:port
-#add it to your monitor list, and be sure that it's running.  
+#Also, now that your MN is running, good time to backup your windows wallet.dat file to a usb drive, etc!
