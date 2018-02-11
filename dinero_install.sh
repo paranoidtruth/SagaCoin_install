@@ -49,10 +49,13 @@ sudo apt-get install libdb5.3-dev libdb5.3++-dev -y
 
 echo "Packages complete..."
 
-wget https://github.com/paranoidtruth/SagaCoin_install/raw/master/dinero.tar.gz
-tar -zxvf dinero.tar.gz
-sudo cp dinero_files/dinerod /usr/local/bin/
-sudo cp dinero_files/dinero-cli /usr/local/bin/
+#wget https://github.com/paranoidtruth/SagaCoin_install/raw/master/dinero.tar.gz
+wget https://github.com/dinerocoin/dinero/releases/download/v1.0.0.5/dinerocore-1.0.0.5-linux64.tar.gz
+
+tar -zxvf dinerocore-1.0.0.5-linux64.tar.gz
+mv dinerocore-1.0.0 dinero
+sudo cp dinero/bin/dinerod /usr/local/bin/
+sudo cp dinero/bin/dinero-cli /usr/local/bin/
 
 echo "Loading wallet, 30 seconds wait..." 
 dinerod -daemon
