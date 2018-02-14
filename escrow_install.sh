@@ -11,7 +11,7 @@ echo -n "Installing dns utils..."
 sudo apt-get install dnsutils
 
 #PASSWORD=$(pwgen -s 64 1)
-PASSWORD="escrowcoin"
+PASSWORD="escrowcoinpass"
 WANIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 
 #begin optional swap section
@@ -58,7 +58,7 @@ sudo cp Escrowd /usr/local/bin/
 #sudo cp escrow/bin/Escrow-cli /usr/local/bin/
 
 echo "Loading wallet, 30 seconds wait..." 
-Escrowd -daemon
+Escrowd
 sleep 30
 
 echo "making genkey..."
