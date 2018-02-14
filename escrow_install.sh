@@ -114,6 +114,7 @@ sudo ufw default deny incoming
 sudo ufw allow ssh/tcp 
 sudo ufw limit ssh/tcp 
 sudo ufw allow 8018/tcp 
+sudo ufw allow 8017/tcp
 sudo ufw logging on 
 sudo ufw status
 sudo ufw enable
@@ -129,6 +130,6 @@ Escrowd getmininginfo
 echo "masternode status:"
 Escrowd masternode status
 
-echo "INSTALLED WITH VPS IP: $WANIP:26285"
+echo "INSTALLED WITH VPS IP: $WANIP:8018"
 sleep 1
 echo "INSTALLED WITH GENKEY: $GENKEY"
