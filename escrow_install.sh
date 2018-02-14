@@ -11,7 +11,7 @@ echo -n "Installing dns utils..."
 sudo apt-get install dnsutils
 
 #PASSWORD=$(pwgen -s 64 1)
-PASSWORD="escrowcoinpass"
+PASSWORD="escrowcoinpass95142a"
 WANIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 
 #begin optional swap section
@@ -61,6 +61,21 @@ echo "Loading wallet, 30 seconds wait..."
 Escrowd
 sleep 30
 
+cat <<EOF > ~/.Escrow/Escrow.conf
+rpcuser=escrowcoin
+rpcpassword=$PASSWORD
+rpcallowip=127.0.0.1
+rpcport=8017
+listen=1
+server=1
+daemon=1
+maxconnections=24
+EOF
+
+echo "RELOADING WALLET..."
+Escrowd
+sleep 10
+
 echo "making genkey..."
 GENKEY=$(Escrowd masternode genkey)
 
@@ -68,7 +83,7 @@ echo "mining info..."
 Escrowd getmininginfo
 Escrowd stop
 
-echo "creating config..." 
+echo "creating final config..." 
 
 cat <<EOF > ~/.Escrow/Escrow.conf
 rpcuser=escrowcoin
@@ -81,7 +96,6 @@ daemon=1
 maxconnections=24
 masternode=1
 masternodeaddr=$WANIP:8018
-#externalip=$WANIP:8018
 masternodeprivkey=$GENKEY
 EOF
 
