@@ -11,7 +11,7 @@ echo -n "Installing dns utils..."
 sudo apt-get install dnsutils
 
 #PASSWORD=$(pwgen -s 64 1)
-PASSWORD="escrowcoinpass95142a"
+PASSWORD="escrowcoinpass"
 WANIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 
 #begin optional swap section
