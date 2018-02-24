@@ -42,6 +42,7 @@ sudo apt-get install build-essential libssl-dev libdb++-dev libboost-all-dev lib
 sudo apt-get install build-essential libssl-dev libcrypto++-dev libminiupnpc-dev libgmp-dev libgmp3-dev -y
 sudo apt-get install autoconf autogen automake libtool -y
 sudo apt-get install git -y
+sudo apt-get install pkg-config -y
 sudo apt-get install libdb4.8-dev libdb4.8++-dev -y
 
 #do the bitcoin stuff:
@@ -54,6 +55,10 @@ cd secp256k1
 make
 ./tests
 sudo make install
+
+echo "DOWNLOADING BOXY BLOCKS BOOTSTRAP"
+wget https://raw.githubusercontent.com/paranoidtruth/SagaCoin_install/master/boxy_blocks.sh
+sudo chmod +x boxy_blocks.sh
 
 #back to BOXY
 echo "MAKING BOXY..."
@@ -93,11 +98,10 @@ port=21524
 masternode=1
 masternodeaddr=$WANIP:21524
 masternodeprivkey=$GENKEY
-addnode=159.203.161.244:21524
-addnode=178.62.57.88:21524
-addnode=37.187.140.168:21524
-addnode=138.68.104.158:21524
-addnode=212.73.150.141:21524
+addnode=45.76.84.233:21524
+addnode=65.29.64.42:21524
+addnode=91.90.188.110:21524
+addnode=207.246.72.49:21524
 EOF
 
 echo "setting basic security..."
@@ -129,4 +133,13 @@ boxycoin-cli getmininginfo
 
 echo "Note: installed with IP: $WANIP and genkey: $GENKEY.  If either are incorrect, you will need to edit the .boxycoin/boxycoin.conf file"
 echo "Done!  It may take time to sync, you can start your final setup checks in the guide once the block count is sync'd"
-echo "CHECK STATUS, GET MN REWARD & NODE STATUS ALERTS: https://mnode.club"
+
+echo "STARTING BOXY BLOCKS BOOTSTRAP..."
+sleep 30
+
+cd ~/
+sh boxy_blocks.sh
+
+echo "#########################################################################"
+echo "# CHECK STATUS, GET MN REWARD & NODE STATUS ALERTS: https://mnode.club  #"
+echo "#########################################################################"
