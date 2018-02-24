@@ -8,10 +8,10 @@ echo "Installing, this will compile and take up to 30 min to run..."
 read -p 'Enter your masternode genkey you created in windows, then hit [ENTER]: ' GENKEY
 
 echo -n "Installing pwgen..."
-sudo apt-get install pwgen 
+sudo apt-get install pwgen -y 
 
 echo -n "Installing dns utils..."
-sudo apt-get install dnsutils
+sudo apt-get install dnsutils -y
 
 PASSWORD=$(pwgen -s 64 1)
 WANIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
@@ -44,6 +44,18 @@ sudo apt-get install autoconf autogen automake libtool -y
 sudo apt-get install git -y
 sudo apt-get install libdb4.8-dev libdb4.8++-dev -y
 
+#do the bitcoin stuff:
+echo "BITCOIN CORE..."
+cd ~/
+git clone https://github.com/bitcoin-core/secp256k1.git
+cd secp256k1
+./autogen.sh
+./configure
+make
+./tests
+sudo make install
+
+#back to BOXY
 echo "MAKING BOXY..."
 cd ~/
 git clone https://github.com/boxycoin/boxycoin.git
