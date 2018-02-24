@@ -1,0 +1,155 @@
+#paranoidtruth BOXY GUIDE for windows-linux (cold) setup
+#you do need a linux vps to get a public IP, etc.  If you don't know what that is, you might want to hold off on this.
+
+***************************** LINUX VPS setup (part 1) *************************************************************
+#I personally use a fairly small linux instance, 1024memory, ubuntu, 16.04
+#a lot of people use vultr, the $5 instance.  but any vps will do.  
+Stick with ubuntu 16.04 for this guide, though.
+#there are tons of vps services like: ovh, vpsdime, vultr, digitalocean, etc, etc.
+#get the vps ip they gave you, you will need that for the windows setup
+********************************************************************************************************************
+
+
+*************************** WINDOWS SETUP (or mac) *****************************************************************
+#side note, you actually need a little over 10000 coins because there's a trans fee.  
+#If you literally have only 10000, go buy one more coin.
+#send all coins from exchange to your local windows/mac wallet primary/default wallet address
+
+#edit your local (windows/mac) boxycoin.conf file
+#it should be at /users/<your user name>/AppData/Roaming/boxycoin
+#or in mac: /Users/<username>/Library/Application Support/boxycoin
+#it can be virtually empty, we will mainly add the staking=0 & addnodes
+#it should look like this:
+staking=0
+addnode=159.203.161.244:21524
+addnode=178.62.57.88:21524
+addnode=37.187.140.168:21524
+addnode=138.68.104.158:21524
+addnode=212.73.150.141:21524
+
+#SAVE, shutdown & restart wallet to load those new configs
+#make sure the wallet is unlocked
+
+Go to the RECEIVE tab
+Create a new address, label it MN1.
+Send exactly 10000 coins to that address.  You are just sending coins to yourself at a secondary wallet address. 
+ONE TRANSACTION.  EXACTLY 10000.  Do NOT add in extra!
+Wait for a few confirms in the transactions tab, the full amount won’t show, but the fee will.
+
+Open the console: Tools->debug console
+Type: masternode outputs
+You should get output that looks something like this:
+"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" : "0"
+Copy & save this to a file, you will need in a minute.
+The first part is your txid.  The second part is your index.  
+
+If that didn’t work, stop, you’re already broken.  
+Did you send exactly 10000 coins? 10000.01 is not 10000, most common mistake is people send extra.  
+Your primary can have the extra, your MN needs exactly 10000.   
+
+In the debug console, type:
+masternode genkey
+copy/save that output to a file.  Don’t lose it, you will need it for the VPS setup
+You will be using the genkey & txid in just a minute for window masternode.conf...
+
+#now need to edit the masternode.conf file
+#make it look EXACTLY like this, it's just one line. #use your actual vps_ip, genkey, tx_id & index num
+MN1 VPS_IP:21524 your_genkey_here your_tx_id_here index_num_here
+
+#save it.  close wallet & reopen to reload configs again.
+go back to debug: Tools->debug console
+#double check config:
+masternode list-conf
+#verify data there looks good for the ip addr, txid, priv/genkey, etc.
+#verify it matches for the tx id and index:
+masternode outputs
+********************************************************************************************************************
+
+
+***************************** LINUX VPS setup (part 2) *************************************************************
+#SSH into the vps (most windows users will use putty.  If you're not familiar with putty, watch a quick youtube vid)
+#If you're on a mac you have a built in SSH terminal instead of putty)
+#after connecting should see something like: root@whatever_your_server_name_is
+#copy all instructions one line at a time:
+
+######################## OPTIONAL ADD USER ###########################
+#this is OPTIONAL, but I do not like to install as root.
+You can skip the next few user lines if you want to install as root
+#so let's create a user called boxy1
+#it's going to ask you questions like room number, you can just hit enter for all those, all you really need to fill in 
+#is the new user password, do not lose this password either, you need both the root & boxy1 password from now on
+
+adduser boxy1
+
+#now give this user sudo access (more power!)
+usermod -aG sudo boxy1
+
+#switch to out new user:
+su - boxy1
+#you are now logged in as boxy1
+############### END OF OPTIONAL ADD USER ###############################
+
+cd ~/
+
+#now download and run the install script:
+wget https://raw.githubusercontent.com/paranoidtruth/SagaCoin_install/master/boxy_install.sh
+sudo chmod +x boxy_install.sh
+#you will now need that masternodeprivkey from windoows, 
+#copy it, right click to paste when asked for it
+sh boxy_install.sh
+#enter y at the end to enable firewall
+
+#after finishes, run:
+boxycoin-cli getmininginfo
+#you should see the block number, and run that command every couple minutes
+#until you sync up to the current block.  Then you should be ready to continue:
+
+#see if we are running: 
+boxycoin-cli masternode status
+#you want to see status 9.  ignore the "could not find suitable coins"
+
+#now, let's also see if we can see our ip in the list, swap in YOUR txid from windows for xxxx
+boxycoin-cli masternode list | grep xxxx
+#with any luck you will see something like: xxxxxxx : ENABLED,
+
+#what if that didn't all work?
+#DEBUG RULES:
+#wait 5 min, then restart vps wallet & try again:
+boxycoind stop
+#wait a few seconds:
+boxycoind 
+#test again using the grep technique above
+#verify your vps wallet is in sync on blockchain to current block number:
+boxycoin-cli getmininginfo
+#see if block number there matches current block count in the boxy block explorer:
+
+#if sync'd and still not in list, go back to windows and shut-down, restart wallet.
+#Do all of the following in the windows wallet debug/console:
+masternode start-alias MN1 (use whatever you named your MN)
+#verify yours is enabled in: 
+masternode list
+#If everything is good there, try again in LINUX VPS, use the grep command again
+#if it's still not good, stop and restart it in the VPS:
+boxycoin-cli stop #stop
+boxycoind	#restart
+#still not good?  Wait 5 min and repeat all debug steps.
+
+#FYI: some VPS commands you might use on occasion:
+boxycoind #starts
+boxycoin-cli masternode list #shows all nodes
+boxycoin-cli stop #stops
+boxycoin-cli getmininginfo #show blocks, etc.
+boxycoin-cli help #shows every possible command
+
+#WINDOWS CMD:
+masternode list-conf
+masternode outputs
+masternode list
+
+#wait for rewards.  First one might take up to 24+ hours.
+#I also recommend (full disclosure, it's mine) the monitoring feature of mnode.club
+https://mnode.club/g/nodes/BOXY/
+
+#You can create an acct and add your node to your watchlist to get email alerts 
+#if the node goes down, or for any incoming reward pmt.
+#add your node to your watchlist!
