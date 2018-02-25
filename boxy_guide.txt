@@ -1,6 +1,7 @@
 #paranoidtruth BOXY GUIDE for windows-linux (cold) setup
 #you do need a linux vps to get a public IP, etc.  If you don't know what that is, you might want to hold off on this.
 
+
 ***************************** LINUX VPS setup (part 1) *************************************************************
 #I personally use a fairly small linux instance, 1024memory, ubuntu, 16.04
 #a lot of people use vultr, the $5 instance.  but any vps will do.  
@@ -30,8 +31,8 @@ addnode=212.73.150.141:21524
 #SAVE, shutdown & restart wallet to load those new configs
 #make sure the wallet is unlocked
 
-Go to the RECEIVE tab
-Create a new address, label it MN1.
+Go to the RECEIVE tab (File -> receiving addresses)
+Create a new address, label it MN1
 Send exactly 10000 coins to that address.  You are just sending coins to yourself at a secondary wallet address. 
 ONE TRANSACTION.  EXACTLY 10000.  Do NOT add in extra!
 Wait for a few confirms in the transactions tab, the full amount won’t show, but the fee will.
@@ -53,7 +54,7 @@ copy/save that output to a file.  Don’t lose it, you will need it for the VPS 
 You will be using the genkey & txid in just a minute for window masternode.conf...
 
 #now need to edit the masternode.conf file
-#make it look EXACTLY like this, it's just one line. #use your actual vps_ip, genkey, tx_id & index num
+#make it look EXACTLY like this, it's just one line. use your actual vps_ip, genkey, tx_id & index num
 MN1 VPS_IP:21524 your_genkey_here your_tx_id_here index_num_here
 
 #save it.  close wallet & reopen to reload configs again.
@@ -110,7 +111,7 @@ boxycoin-cli masternode status
 
 #now, let's also see if we can see our ip in the list, swap in YOUR txid from windows for xxxx
 boxycoin-cli masternode list | grep xxxx
-#with any luck you will see something like: xxxxxxx : ENABLED,
+#with any luck you will see something like: xxxx : ENABLED,
 
 #what if that didn't all work?
 #DEBUG RULES:
@@ -148,6 +149,7 @@ masternode list
 
 #wait for rewards.  First one might take up to 24+ hours.
 #I also recommend (full disclosure, it's mine) the monitoring feature of mnode.club
+
 https://mnode.club/g/nodes/BOXY/
 
 #You can create an acct and add your node to your watchlist to get email alerts 

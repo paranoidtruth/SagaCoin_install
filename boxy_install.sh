@@ -57,6 +57,7 @@ make
 sudo make install
 
 echo "DOWNLOADING BOXY BLOCKS BOOTSTRAP"
+cd ~/
 wget https://raw.githubusercontent.com/paranoidtruth/SagaCoin_install/master/boxy_blocks.sh
 sudo chmod +x boxy_blocks.sh
 
