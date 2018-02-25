@@ -87,18 +87,12 @@ port=21527
 masternode=1
 masternodeaddr=$WANIP:21527
 masternodeprivkey=$GENKEY
-addnode=artax.online 
-addnode=seed1.artax.one 
-addnode=seed2.artax.one 
-addnode=seed3.artax.one 
-addnode=104.207.156.30:34457
-addnode=108.51.164.90:56635
-addnode=108.51.88.251:60423
-addnode=108.61.181.58:43427
-addnode=108.61.215.152:21527
-addnode=113.161.8.131:53080
-addnode=115.75.5.106:63112
-addnode=124.121.188.118:56878
+addnode=45.63.41.94:21527
+addnode=47.74.236.56:21527
+addnode=103.1.238.20:21527
+addnode=159.65.44.84:21527
+addnode=45.76.32.59:21527
+addnode=193.33.201.48:21527
 EOF
 
 echo "setting basic security..."
