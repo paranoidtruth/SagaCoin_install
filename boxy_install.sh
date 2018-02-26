@@ -45,7 +45,7 @@ sudo apt-get install git -y
 sudo apt-get install pkg-config -y
 sudo apt-get install libdb4.8-dev libdb4.8++-dev -y
 
-#do the bitcoin stuff:
+#do the bitcoin core stuff:
 echo "BITCOIN CORE..."
 cd ~/
 git clone https://github.com/bitcoin-core/secp256k1.git
@@ -64,6 +64,8 @@ sudo chmod +x boxy_blocks.sh
 #back to BOXY
 echo "MAKING BOXY..."
 cd ~/
+#making sure 4.8 loaded correctly!  weird, some have crashed here
+sudo apt-get install libdb4.8-dev libdb4.8++-dev -y
 git clone https://github.com/boxycoin/boxycoin.git
 cd boxycoin
 sudo chown 755 autogen.sh
