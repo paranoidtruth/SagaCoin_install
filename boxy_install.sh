@@ -64,12 +64,12 @@ sudo chmod +x boxy_blocks.sh
 #back to BOXY
 echo "MAKING BOXY..."
 cd ~/
-#making sure 4.8 loaded correctly!  weird, some have crashed here
-sudo apt-get install libdb4.8-dev libdb4.8++-dev -y
 git clone https://github.com/boxycoin/boxycoin.git
 cd boxycoin
 sudo chown 755 autogen.sh
 sudo ./autogen.sh
+#making sure 4.8 loaded correctly!  weird, some have crashed here
+sudo apt-get install libdb4.8-dev libdb4.8++-dev -y
 sudo ./configure
 sudo make
 
