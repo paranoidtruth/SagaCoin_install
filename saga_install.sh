@@ -2,7 +2,7 @@
 #paranoidtruth
 
 #PATH TO CURRENT SAGA:  YOU MUST ALSO CHANGE TAR & MV COMMANDS
-FILE_NAME="https://github.com/sagacrypto/SagaCoin/releases/download/1.0.0.5/sagacoin_1.0.0.5_ubuntu16.04.tar.gz"
+FILE_NAME="https://github.com/sagacrypto/SagaCoin/releases/download/1.2.0.0/sagacoin_1.2.0.0_ubuntu16.04.tar.gz"
 
 echo "=================================================================="
 echo "SagaCoin MN Install"
@@ -43,8 +43,8 @@ sudo apt-get install build-essential libssl-dev libdb++-dev libboost-all-dev lib
 
 echo "Downloading saga wallet..."
 wget $FILE_NAME
-tar -zxvf sagacoin_1.0.0.5_ubuntu16.04.tar.gz
-mv sagacoin_1.0.0.5_ubuntu16.04 SagaCoin
+tar -zxvf sagacoin_1.2.0.0_ubuntu16.04.tar.gz
+mv sagacoin_1.2.0.0_ubuntu16.04 SagaCoin
 chmod +x SagaCoin/sagacoind
 sudo cp SagaCoin/sagacoind /usr/local/bin
 
